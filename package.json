@@ -1,0 +1,21 @@
+{
+  "name": "com.dt.setting",
+  "displayName": "N-Setting",
+  "version": "0.0.1",
+  "keywords": [
+    "Setting"
+  ],
+  "description": "所有模块的设置整合到同一个设置窗口",
+  "dependencies": {
+    
+  },
+  "repository": {
+    "url": "https://github.com/TonyChenn/N-Setting.git",
+    "type": "git"
+  },
+  "author": {
+    "name": "TonyChenn",
+    "email": "852454151@qq.com",
+    "url": "https://tonychenn.cn"
+  }
+}
