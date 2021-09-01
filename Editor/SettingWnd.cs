@@ -80,32 +80,22 @@ namespace SettingKit.Editor
         {
             GUILayout.BeginHorizontal();
             SettingAttribute attr = property.GetCustomAttribute<SettingAttribute>(false);
+            //字段类型
+            FieldType fieldType = attr == null ? FieldType.Folder : attr.FieldType;
+            //字段标题
             string title = attr == null ? property.Name + ": " : attr.Title;
 
-            switch (property.PropertyType.ToString())
+            switch (fieldType)
             {
-                case "System.String":
-                {
-                    GUILayout.Label(title, GUILayout.Width(100));
-
-                    string strValue = property.GetValue(null).ToString();
-                    if (GUILayout.Button("...", GUILayout.Width(30)))
-                    {
-                        strValue = EditorUtility.SaveFolderPanel("选择" + title, strValue,
-                            strValue);
-                        property.SetValue(null, strValue);
-                    }
-
-                    GUILayout.TextField(strValue);
+                case FieldType.Folder:
+                    DrawSelectFolder(property, title);
                     break;
-                }
-                case "System.Boolean":
-                {
-                    bool boolValue = (bool) property.GetValue(null);
-                    boolValue = GUILayout.Toggle(boolValue, title);
-                    property.SetValue(null, boolValue);
+                case FieldType.File:
+                    DrawSelectFile(property, title);
                     break;
-                }
+                case FieldType.Toggle:
+                    DrawToggle(property, title);
+                    break;
                 default:
                     GUILayout.Button(property.PropertyType.ToString());
                     break;
@@ -143,5 +133,53 @@ namespace SettingKit.Editor
                 }
             }
         }
+
+        #region DrawField
+
+        /// <summary>
+        /// 绘制选择文件夹
+        /// </summary>
+        public void DrawSelectFolder(PropertyInfo property, string fieldName)
+        {
+            GUILayout.Label(fieldName, GUILayout.Width(100));
+
+            string strValue = property.GetValue(null).ToString();
+            if (GUILayout.Button("...", GUILayout.Width(30)))
+            {
+                strValue = EditorUtility.SaveFolderPanel("选择" + fieldName, strValue,
+                    strValue);
+                property.SetValue(null, strValue);
+            }
+
+            GUILayout.TextField(strValue);
+        }
+
+        /// <summary>
+        /// 绘制选择文件
+        /// </summary>
+        public void DrawSelectFile(PropertyInfo property, string fieldName)
+        {
+            GUILayout.Label(fieldName, GUILayout.Width(100));
+            string strValue = property.GetValue(null).ToString();
+            if (GUILayout.Button("...", GUILayout.Width(30)))
+            {
+                strValue = EditorUtility.OpenFilePanel("选择" + fieldName, strValue, "*");
+                property.SetValue(null, strValue);
+            }
+
+            GUILayout.TextField(strValue);
+        }
+
+        /// <summary>
+        /// 绘制Toggle
+        /// </summary>
+        public void DrawToggle(PropertyInfo property, string fieldName)
+        {
+            bool boolValue = (bool) property.GetValue(null);
+            boolValue = GUILayout.Toggle(boolValue, fieldName);
+            property.SetValue(null, boolValue);
+        }
+
+        #endregion
     }
 }

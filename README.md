@@ -27,9 +27,11 @@ public void ReleaseEditorPrefs()
 ```
 2. 根据需要添加属性，该属性回显示到设置窗口上,如下：
 ```csharp
-// SettingAttribute 中参数为设置中item的标题
+// SettingAttribute 中参数
+// - 类型
+// - 设置中item的标题
 // get;set; 用来保存设置到EditorPrefs
-[SettingAttribute("Excel 目录: ")]
+[SettingAttribute(FieldType.Folder, "Excel 目录: ")]
 public static string ExcelFolder
 {
     get { return EditorPrefsHelper.GetString("Path_TableConfig_ExcelFolder", Application.dataPath); }

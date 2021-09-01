@@ -9,16 +9,23 @@ namespace SettingKit.Editor
     [AttributeUsage(AttributeTargets.Property)]
     public class SettingAttribute:Attribute
     {
+        private FieldType fieldType;
         private string title;
 
-        public SettingAttribute(string title)
+        public SettingAttribute(FieldType fieldType, string title)
         {
+            this.fieldType = fieldType;
             this.title = title;
         }
-        
+
         public string Title
         {
             get { return title; }
+        }
+        
+        public FieldType FieldType
+        {
+            get { return fieldType; }
         }
     }
 }
