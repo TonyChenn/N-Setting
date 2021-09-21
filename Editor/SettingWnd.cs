@@ -141,7 +141,7 @@ namespace SettingKit.Editor
         /// </summary>
         public void DrawSelectFolder(PropertyInfo property, string fieldName)
         {
-            GUILayout.Label(fieldName, GUILayout.Width(100));
+            GUILayout.Label(fieldName, GUILayout.Width(150));
 
             string strValue = property.GetValue(null).ToString();
             if (GUILayout.Button("...", GUILayout.Width(30)))
@@ -159,7 +159,7 @@ namespace SettingKit.Editor
         /// </summary>
         public void DrawSelectFile(PropertyInfo property, string fieldName)
         {
-            GUILayout.Label(fieldName, GUILayout.Width(100));
+            GUILayout.Label(fieldName, GUILayout.Width(150));
             string strValue = property.GetValue(null).ToString();
             if (GUILayout.Button("...", GUILayout.Width(30)))
             {
@@ -175,8 +175,10 @@ namespace SettingKit.Editor
         /// </summary>
         public void DrawToggle(PropertyInfo property, string fieldName)
         {
+            GUILayout.Label(fieldName, GUILayout.Width(150));
+            
             bool boolValue = (bool) property.GetValue(null);
-            boolValue = GUILayout.Toggle(boolValue, fieldName);
+            boolValue = GUILayout.Toggle(boolValue, "");
             property.SetValue(null, boolValue);
         }
 
