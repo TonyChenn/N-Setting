@@ -69,14 +69,14 @@ namespace SettingKit.Editor
         /// <summary>
         /// 绘制页面的所有属性
         /// </summary>
-        void DrawPage()
+        private void DrawPage()
         {
         }
 
         /// <summary>
         /// 绘制字段
         /// </summary>
-        void DrawProperty(PropertyInfo property)
+        private void DrawProperty(PropertyInfo property)
         {
             GUILayout.BeginHorizontal();
             SettingAttribute attr = property.GetCustomAttribute<SettingAttribute>(false);
@@ -87,6 +87,9 @@ namespace SettingKit.Editor
 
             switch (fieldType)
             {
+                case FieldType.TextField:
+                    DrawTextField(property, title);
+                    break;
                 case FieldType.Folder:
                     DrawSelectFolder(property, title);
                     break;
@@ -104,7 +107,7 @@ namespace SettingKit.Editor
             GUILayout.EndHorizontal();
         }
 
-        void Refresh()
+        private void Refresh()
         {
             dict.Clear();
 
@@ -137,9 +140,22 @@ namespace SettingKit.Editor
         #region DrawField
 
         /// <summary>
+        /// 文本框
+        /// </summary>
+        /// <param name="property"></param>
+        /// <param name="fieldName"></param>
+        private void DrawTextField(PropertyInfo property, string fieldName)
+        {
+            GUILayout.Label(fieldName, GUILayout.Width(150));
+            GUILayout.Space(30);
+            string strValue = property.GetValue(null).ToString();
+            GUILayout.TextField(strValue);
+        }
+
+        /// <summary>
         /// 绘制选择文件夹
         /// </summary>
-        public void DrawSelectFolder(PropertyInfo property, string fieldName)
+        private void DrawSelectFolder(PropertyInfo property, string fieldName)
         {
             GUILayout.Label(fieldName, GUILayout.Width(150));
 
@@ -148,7 +164,8 @@ namespace SettingKit.Editor
             {
                 strValue = EditorUtility.SaveFolderPanel("选择" + fieldName, strValue,
                     strValue);
-                property.SetValue(null, strValue);
+                if (!string.IsNullOrEmpty(strValue))
+                    property.SetValue(null, strValue);
             }
 
             GUILayout.TextField(strValue);
@@ -157,14 +174,15 @@ namespace SettingKit.Editor
         /// <summary>
         /// 绘制选择文件
         /// </summary>
-        public void DrawSelectFile(PropertyInfo property, string fieldName)
+        private void DrawSelectFile(PropertyInfo property, string fieldName)
         {
             GUILayout.Label(fieldName, GUILayout.Width(150));
             string strValue = property.GetValue(null).ToString();
             if (GUILayout.Button("...", GUILayout.Width(30)))
             {
                 strValue = EditorUtility.OpenFilePanel("选择" + fieldName, strValue, "*");
-                property.SetValue(null, strValue);
+                if (!string.IsNullOrEmpty(strValue))
+                    property.SetValue(null, strValue);
             }
 
             GUILayout.TextField(strValue);
@@ -173,10 +191,10 @@ namespace SettingKit.Editor
         /// <summary>
         /// 绘制Toggle
         /// </summary>
-        public void DrawToggle(PropertyInfo property, string fieldName)
+        private void DrawToggle(PropertyInfo property, string fieldName)
         {
             GUILayout.Label(fieldName, GUILayout.Width(150));
-            
+
             bool boolValue = (bool) property.GetValue(null);
             boolValue = GUILayout.Toggle(boolValue, "");
             property.SetValue(null, boolValue);
