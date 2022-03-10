@@ -7,7 +7,10 @@
  * privite字段不显示
  *
  */
-public interface IPathConfig
+namespace SettingKit.Editor
 {
-    string GetModuleName();
+    public interface IPathConfig
+    {
+        string GetModuleName();
+    }
 }
