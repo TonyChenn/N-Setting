@@ -1,5 +1,5 @@
 {
-  "name": "com.dt.setting",
+  "name": "com.tonychenn.setting",
   "displayName": "N-Setting",
   "version": "0.0.2",
   "keywords": [
@@ -15,7 +15,7 @@
   },
   "author": {
     "name": "TonyChenn",
-    "email": "852454151@qq.com",
+    "email": "email@tonychenn.cn",
     "url": "https://tonychenn.cn"
   }
 }
